@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Submit Your Offer</title>
+<style>
+  body { font-family: Arial; background: #f8f8f8; padding: 20px; }
+  form { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; }
+  label { display: block; margin-top: 10px; }
+  input, textarea, button { width: 100%; padding: 10px; margin-top: 5px; }
+  button { background: #3a86ff; color: white; border: none; cursor: pointer; }
+  button:hover { background: #265ecf; }
+</style>
+</head>
+<body>
+
+<h1>Submit Your Offer</h1>
+<p>Fill out the form below to make an offer for our laundromat.</p>
+
+<form id="offerForm">
+  <label>Name:</label>
+  <input type="text" name="name" required>
+
+  <label>Email:</label>
+  <input type="email" name="email" required>
+
+  <label>Phone Number:</label>
+  <input type="tel" name="phone" required placeholder="e.g., 555-123-4567">
+
+  <label>Offer Amount ($):</label>
+  <input type="number" name="offer" required>
+
+  <label>Message (optional):</label>
+  <textarea name="message"></textarea>
+
+  <button type="submit">Submit Offer</button>
+</form>
+
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyxnmqQmIMm7FpwgvCKpaGZXbPW9og9eIHpsyPr6tN84GSW-kwV4LftOLcMq35EtZ-E/exec";
+
+  document.getElementById('offerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const formData = {
+      name: e.target.name.value,
+      email: e.target.email.value,
+      phone: e.target.phone.value, // <-- Added phone
+      offer: e.target.offer.value,
+      message: e.target.message.value
+    };
+    fetch(scriptURL, {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    })
+    .then(() => {
+      alert("Thank you! Your offer has been submitted.");
+      e.target.reset();
+    })
+    .catch(err => alert("Error: " + err.message));
+  });
+</script>
+
+</body>
+</html>
